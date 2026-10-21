@@ -1,0 +1,43 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+    <h3 class="fw-bold mb-4">📋 Реестр оформленных заказов</h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped align-middle border-top mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col" class="py-3 px-3">Код</th>
+                    <th scope="col" class="py-3">Покупатель</th>
+                    <th scope="col" class="py-3">Состав чека (Наименование, количество и цена)</th>
+                    <th scope="col" class="py-3 text-center">Текущий статус</th>
+                    <th scope="col" class="py-3">Дата создания</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td class="px-3"><strong>#{{ order.id }}</strong></td>
+                    <td class="fw-bold text-secondary">{{ order.user.username }}</td>
+                    <td>
+                        {% for item in order.items.all %}
+                        <div class="p-1 rounded bg-light border-bottom mb-1 small text-dark">
+                            📦 {{ item.product.name }} — <strong class="text-primary">{{ item.quantity }} шт.</strong> ×
+                            {{ item.price_at_purchase }} руб.
+                        </div>
+                        {% endfor %}
+                    </td>
+                    <td class="text-center">
+                        <span class="badge bg-primary px-3 py-2 rounded-pill shadow-2xs">{{ order.status }}</span>
+                    </td>
+                    <td class="text-muted small">{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center py-5 text-muted fs-5">История заказов в системе пуста.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

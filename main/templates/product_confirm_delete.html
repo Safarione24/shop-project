@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card border-0 shadow rounded-3 bg-white text-center">
+            <div class="card-body p-4 p-sm-5">
+                <div class="text-danger mb-3" style="font-size: 3rem;">⚠️</div>
+                <h4 class="fw-bold text-danger mb-2">Подтвердите удаление</h4>
+                <p class="text-secondary mb-4">Вы действительно хотите безвозвратно скрыть товар "<strong
+                        class="text-dark">{{ object.name }}</strong>" из общего каталога покупателей?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger py-2.5 rounded-3 fw-bold shadow-sm">Да, применить
+                            мягкое удаление</button>
+                        <a href="{% url 'home' %}" class="btn btn-light py-2 rounded-3 border">Отменить операцию</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow rounded-3 bg-white">
+            <div class="card-body p-4 p-sm-5">
+                <h4 class="card-title text-center fw-bold mb-4">Регистрация нового клиента</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3 d-grid gap-1">
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit"
+                        class="btn btn-primary w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-3">Зарегистрировать
+                        аккаунт</button>
+                </form>
+                <hr class="text-muted my-4">
+                <div class="text-center">
+                    <a href="{% url 'login' %}" class="link-secondary text-decoration-none small">Уже зарегистрированы?
+                        Войти в кабинет</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

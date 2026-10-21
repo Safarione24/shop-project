@@ -1,0 +1,23 @@
+{% extends 'index.html' %}
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-7 col-lg-6">
+        <div class="card border-0 shadow rounded-3 bg-white">
+            <div class="card-body p-4 p-sm-5">
+                <h4 class="card-title text-center fw-bold mb-4">📦 Карточка параметров товара</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3 d-grid gap-2">
+                        {{ form.as_p }}
+                    </div>
+                    <button type="submit"
+                        class="btn btn-success w-100 py-2.5 rounded-3 fw-bold shadow-sm mt-4">Сохранить
+                        изменения</button>
+                </form>
+                <a href="{% url 'home' %}" class="btn btn-outline-secondary w-100 py-2 rounded-3 btn-sm mt-2">Вернуться
+                    в каталог</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
