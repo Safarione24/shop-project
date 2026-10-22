@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'base.html' %}
 {% block content %}
 <div class="card border-0 shadow-sm rounded-3 bg-white p-4">
     <h3 class="fw-bold mb-4">📋 Реестр оформленных заказов</h3>
@@ -28,6 +28,18 @@
                     </td>
                     <td class="text-center">
                         <span class="badge bg-primary px-3 py-2 rounded-pill shadow-2xs">{{ order.status }}</span>
+                        {% if user.is_staff %}
+                            <form method="post" action="{% url 'change_order_status' order.id %}" class="d-flex gap-1 mt-2 justify-content-center">
+                                {% csrf_token %}
+                                <select name="status" class="form-select form-select-sm" style="max-width: 130px;">
+                                    <option {% if order.status == 'Новый' %}selected{% endif %}>Новый</option>
+                                    <option {% if order.status == 'Оплачен' %}selected{% endif %}>Оплачен</option>
+                                    <option {% if order.status == 'Доставлен' %}selected{% endif %}>Доставлен</option>
+                                    <option {% if order.status == 'Отменён' %}selected{% endif %}>Отменён</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">ОК</button>
+                            </form>
+                        {% endif %}
                     </td>
                     <td class="text-muted small">{{ order.created_at|date:"d.m.Y H:i" }}</td>
                 </tr>

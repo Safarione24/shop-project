@@ -65,11 +65,10 @@ class ProductDeleteView(AdminRequiredMixin, DeleteView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        success_url = self.get_success_url()
+        self.object = self.get_object()
         self.object.is_deleted = True
         self.object.save()
-        from django.http import HttpResponseRedirect
-        return HttpResponseRedirect(success_url)
+        return redirect(self.get_success_url())
 
 class CreateOrderView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
@@ -93,7 +92,7 @@ class OrderHistoryView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Order.objects.all().order_together().order_by('-created_at')
+            return Order.objects.all().order_by('-created_at')
         return Order.objects.filter(user=self.request.user).order_by('-created_at')
 
 class AdminUsersView(AdminRequiredMixin, ListView):
@@ -126,3 +125,12 @@ class SalesReportView(AdminRequiredMixin, TemplateView):
         context['total_sales'] = total_sales
         context['items'] = items
         return context
+
+class ChangeOrderStatusView(AdminRequiredMixin, TemplateView):
+    def post(self, request, pk):
+        order = get_object_or_404(Order, pk=pk)
+        new_status = request.POST.get('status')
+        if new_status:
+            order.status = new_status
+            order.save()
+        return redirect('order_history')
